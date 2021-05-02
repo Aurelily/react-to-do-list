@@ -19,7 +19,7 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
 }
 .project {
   height: 100%;
@@ -102,10 +102,6 @@ TO DO LIST
 .done {
   text-decoration: line-through;
   color: var(--grey-react);
-}
-
-.remove {
-  display: none;
 }
 
 .trash {

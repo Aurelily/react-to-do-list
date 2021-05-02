@@ -1,44 +1,45 @@
 import "./App.css";
 
+import Header from "./component/Header";
 import Footer from "./component/Footer";
 import Task from "./component/Task";
+import EnterTask from "./component/EnterTask";
 
 import { useState } from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-library.add(faTrash);
+import { faTrash, faList } from "@fortawesome/free-solid-svg-icons";
+library.add(faTrash, faList);
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
   const [task, setTask] = useState("");
   const [taskTab, setTaskTab] = useState([]);
-  const newTaskTab = [...taskTab];
-
-  const handleSubmit = (event) => {
-    setTask(event.target.value);
-    console.log(task);
-  };
-
-  const handleClick = () => {
-    newTaskTab.push(task);
-    console.log("newTaskTab:" + newTaskTab);
-    return setTaskTab(newTaskTab);
-  };
+  const [id, setId] = useState(0);
 
   return (
-    <div className="container">
-      <div className="header">React To Do List</div>
-      <div className="project">
-        <div className="addTask">
-          <input type="text" value={task} onChange={handleSubmit} />
-          <button onClick={handleClick}>Add task</button>
-        </div>
+    <div className={darkMode && "darkMode"}>
+      <Header darkMode={darkMode} setDarkMode={setDarkMode} />
+      <div className="container">
+        <EnterTask
+          task={task}
+          setTask={setTask}
+          taskTab={taskTab}
+          setTaskTab={setTaskTab}
+          id={id}
+          setId={setId}
+        />
         <div className="toDoList">
-          {newTaskTab.map((newTask, index) => {
-            return <Task key={index} newTask={newTask} />;
+          {taskTab.map((newTask, index) => {
+            return (
+              <Task
+                key={index}
+                id={id}
+                newTask={newTask}
+                taskTab={taskTab}
+                setTaskTab={setTaskTab}
+              />
+            );
           })}
-        </div>
-        <div className="zoneDone">
-          <p>Zone done !</p>
         </div>
       </div>
       <Footer />

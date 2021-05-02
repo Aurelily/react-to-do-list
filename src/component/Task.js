@@ -1,26 +1,29 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Task = ({ newTask }) => {
+const Task = ({ taskTab, setTaskTab, newTask, id }) => {
   const [checked, setChecked] = useState(false);
-  const [remove, setRemove] = useState(true);
   const [color, setColor] = useState(0);
-  const [status, setStatus] = useState("unDone");
 
   const handleCheck = () => {
     if (checked === false) {
       setChecked(true);
-      setStatus("done");
-      return status;
+      const newTaskTab = [...taskTab];
+      const taskSplice = newTaskTab.splice(id, 1);
+      newTaskTab.push(taskSplice);
+      setTaskTab(newTaskTab);
+      console.log("newTaskTab:" + newTaskTab);
     } else {
       setChecked(false);
-      setStatus("unDone");
-      return status;
     }
   };
 
   const handleTrashClick = () => {
-    remove === true ? setRemove(false) : setRemove(true);
+    const newTaskTab = [...taskTab];
+    const indexTask = newTaskTab.indexOf(newTask);
+    newTaskTab.splice(indexTask, 1);
+    setTaskTab(newTaskTab);
+    console.log(newTaskTab);
   };
 
   const handleTrashOver = () => {
@@ -28,7 +31,7 @@ const Task = ({ newTask }) => {
   };
 
   return (
-    <div className={remove === true ? "task" : "task remove"}>
+    <div className="task">
       <input
         type="checkbox"
         name="check"
@@ -43,7 +46,6 @@ const Task = ({ newTask }) => {
         onMouseOver={handleTrashOver}
         onMouseOut={handleTrashOver}
       >
-        <span>{status}</span>
         <FontAwesomeIcon
           icon="trash"
           color={color === 0 ? "var(--violet-react)" : "var(--grey-react)"}
