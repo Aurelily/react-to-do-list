@@ -1,27 +1,35 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Task = ({ taskTab, setTaskTab, newTask, id }) => {
+const Task = ({ taskTab, setTaskTab, newTask, isDone, setIsDone }) => {
   const [checked, setChecked] = useState(false);
   const [color, setColor] = useState(0);
 
   const handleCheck = () => {
     if (checked === false) {
-      setChecked(true);
       const newTaskTab = [...taskTab];
-      const taskSplice = newTaskTab.splice(id, 1);
-      newTaskTab.push(taskSplice);
+      const indexTask = newTaskTab.indexOf(newTask);
+      const taskDone = newTaskTab.splice(indexTask, 1);
+      isDone = true;
       setTaskTab(newTaskTab);
-      console.log("newTaskTab:" + newTaskTab);
+      newTaskTab.push(taskDone);
+      setTaskTab(newTaskTab);
+      setChecked(true);
+      console.log(newTaskTab);
+      console.log("isDone:" + isDone);
     } else {
       setChecked(false);
+      isDone = false;
+      console.log("isDone:" + isDone);
     }
+    setIsDone(isDone);
   };
 
   const handleTrashClick = () => {
     const newTaskTab = [...taskTab];
     const indexTask = newTaskTab.indexOf(newTask);
     newTaskTab.splice(indexTask, 1);
+    setChecked(false);
     setTaskTab(newTaskTab);
     console.log(newTaskTab);
   };
@@ -39,7 +47,7 @@ const Task = ({ taskTab, setTaskTab, newTask, id }) => {
         checked={checked}
         onChange={handleCheck}
       ></input>
-      <div className={checked === true ? "done" : ""}>{newTask}</div>
+      <div className={checked === true ? "crossed" : ""}>{newTask}</div>
       <button
         className="trash"
         onClick={handleTrashClick}

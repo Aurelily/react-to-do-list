@@ -15,6 +15,7 @@ function App() {
   const [task, setTask] = useState("");
   const [taskTab, setTaskTab] = useState([]);
   const [id, setId] = useState(0);
+  const [isDone, setIsDone] = useState(false);
 
   return (
     <div className={darkMode && "darkMode"}>
@@ -27,6 +28,8 @@ function App() {
           setTaskTab={setTaskTab}
           id={id}
           setId={setId}
+          isDone={isDone}
+          setIsDone={setIsDone}
         />
         <div className="toDoList">
           {taskTab.map((newTask, index) => {
@@ -37,6 +40,8 @@ function App() {
                 newTask={newTask}
                 taskTab={taskTab}
                 setTaskTab={setTaskTab}
+                isDone={isDone}
+                setIsDone={setIsDone}
               />
             );
           })}
